@@ -1,15 +1,19 @@
-import React from "react";
+import React, { createRef } from "react";
 
 class CounterClass extends React.Component {
-    // Constructors are not required in class components, but 
-    // if you use one, you must call super();
-    constructor() {
-      super();
-      this.state = {
-        counter: 0,
-        lastAction: 'none'
-      }
-    }
+  // Constructors are not required in class components, but
+  // if you use one, you must call super();
+  constructor() {
+    super();
+    this.state = {
+      counter: 0,
+      lastAction: "none",
+    };
+
+    this.inputIncrease = createRef();
+    this.inputDecrease = createRef();
+    
+  }
 
   // Class components must have a render method.
   render() {
@@ -20,31 +24,41 @@ class CounterClass extends React.Component {
       // Could also use:
       // const { counter } = this.state;
       // to destructure the object, so we wouldn't need to do this.state.counter each time
-      this.setState({ 
+      this.setState({
         counter: this.state.counter + 1,
-        lastAction: 'Increased'
+        lastAction: "Increased",
       });
-      console.log('Clicked!', this.state);
-    }
+      this.inputIncrease.current.focus();
+    };
 
     const handleDecrementClick = () => {
-      this.setState({ 
+      this.setState({
         counter: this.state.counter - 1,
-        lastAction: 'Decreased'
+        lastAction: "Decreased",
       });
-      console.log('Clicked!', this.state);
-    }
+      this.inputDecrease.current.focus();
+    };
 
     // Inside the render, you must return something: JSX:
     return (
       <div>
         Counter: {this.state.counter}
-        <div>
-          Last Action: {this.state.lastAction}
-        </div>
+        <div>Last Action: {this.state.lastAction}</div>
+        <input
+          type="text"
+          placeholder="Focus on increase"
+          ref={this.inputIncrease}
+        />
         <br />
         <button onClick={handleIncrementClick}>Increase</button>
         <button onClick={handleDecrementClick}>Decrease</button>
+        <div>
+        <input
+          type="text"
+          placeholder="Focus on decrease"
+          ref={this.inputDecrease}
+        />
+        </div>
       </div>
     );
   }
