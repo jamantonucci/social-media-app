@@ -1,8 +1,20 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
-export default function CounterFunction() {
+export default function CounterFunction({userName}) {
   const [count, setCount] = useState(0);
   const [lastAction, setLastAction] = useState("none");
+
+  useEffect(() => { 
+    console.log('Effect triggered');
+  });
+
+  useEffect(() => {
+    console.log('Counter changed');
+  }, [count]);
+
+  useEffect(() => {
+    console.log('Last action changed');
+  }, [lastAction])
 
   const inputIncrease = useRef();
   const inputDecrease = useRef();
@@ -19,9 +31,13 @@ export default function CounterFunction() {
     inputDecrease.current.focus();
   }
 
+  console.log("Function component rendered");
+
   return (
     <div>
-      Counter: {count} || Last Action: {lastAction}
+      Counter for {userName}: {count} 
+      <br /> 
+      Last Action: {lastAction}
       <div>
         <input
           type="text"

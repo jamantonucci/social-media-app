@@ -4,9 +4,22 @@ import Footer from "./components/Footer";
 import Form from "./components/Form";
 import { useState } from "react";
 import uuid from "react-uuid";
+import Playground from "./playground";
 
 export default function App() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([
+    {
+      id: uuid(),
+      title: 'Post Title',
+      description: 'Description',
+      category: 'ent',
+      promote: true,
+      status: 'p',
+      picture: null,
+      likes: 0,
+      dislikes: 0,
+    }
+  ]);
 
   const handleNewPost = (
     title,
@@ -52,11 +65,12 @@ export default function App() {
   };
 
   return (
-    <>
-      <Header />
-      <Posts posts={posts} onLike={handleLike} onDislike={handleDislike} />
-      <Form onNewPost={handleNewPost} />
-      <Footer />
-    </>
+    // <>
+    //   <Header />
+    //   <Posts posts={posts} onLike={handleLike} onDislike={handleDislike} />
+    //   <Form onNewPost={handleNewPost} />
+    //   <Footer />
+    // </>
+    <Playground />
   );
 }
