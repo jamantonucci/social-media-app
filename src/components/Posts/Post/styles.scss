@@ -1,0 +1,108 @@
+@import "../../../styles/variables.scss";
+
+.post-component {
+  border: solid 1px $border-color;
+  background-color: white;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  color: $text-color;
+
+  h3 {
+    font-family: $title-font;
+    color: $primary-color;
+    font-size: 28px;
+    margin: 0 0 1rem 0;
+  }
+
+  .pic-and-desc {
+    display: flex;
+    align-items: flex-start;
+
+    img {
+      max-width: 120px;
+      margin-right: 15px;
+    }
+
+    span {
+      color: $secondary-color;
+      line-height: 1.4rem;
+    }
+  }
+
+  .post-info {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+
+    div {
+      font-size: 0.8rem;
+      color: $grey-color;
+      margin: 1.5rem 1.5rem 0 0;
+
+      &.promote-yes strong {
+        color: $success-color;
+      }
+  
+      &.promote-no strong {
+        color: $danger-color;
+      }
+    }
+
+    strong {
+      display: block;
+      color: $secondary-color;
+      font-size: 1rem;
+    }
+
+
+  }
+
+  .likes-dislikes {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+
+    button {
+        border: none;
+        font-size: 1rem;
+        color: $secondary-color;
+        display: flex;
+        align-items: center;
+        padding: 7px 15px;
+        cursor: pointer;
+
+        svg {
+            margin-right: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        &.like {
+            border-radius: 20px 0 0 20px;
+            border-right: solid 1px $border-color;
+
+            svg {
+                color: $success-color;
+            }
+        }
+
+        &.dislike {
+            border-radius: 0 20px 20px 0;
+
+            svg {
+                color: $danger-color;
+            }
+        }
+    }
+  }
+
+  @include breakpoint-small {
+    width: calc(50% - 2rem);
+    margin-right: 2rem;
+  }
+
+  @include breakpoint-large {
+    width: calc(33.33% - 2rem);
+  }
+}

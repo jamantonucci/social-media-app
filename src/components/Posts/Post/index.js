@@ -1,4 +1,6 @@
 import { BiHappyBeaming, BiSad } from "react-icons/bi";
+import { getStatus, getCategory } from "../../../includes/variables";
+import "./styles.scss";
 
 export default function Post({
   id,
@@ -21,33 +23,44 @@ export default function Post({
     onDislike(id);
   }
 
+  const promoteStyle = promote ? "promote-yes" : "promote-no";
+
   return (
-    <div>
+    <div className="post-component">
       <h3>{title}</h3>
-      <img src={picture} alt={title} width={100} />
-      <div><p>{description}</p></div>
-      <div>Category: {category}</div>
-      <div>Status: {status}</div>
-      <div>Promote: {promote ? 'Yes' : 'No'} </div>
-      <div>
-        <BiHappyBeaming
-          style={{ userSelect: "none" }}
-          size={24}
-          onClick={handleLike}
-          color="green"
-        />{" "}
-        {likes}
+      <div className="pic-and-desc">
+        <img src={picture} alt={title} />
+        <div>
+          <span>{description}</span>
+        </div>
       </div>
-      <div>
-        <BiSad
-          style={{ userSelect: "none" }}
-          size={24}
-          onClick={handleDislike}
-          color="red"
-        />{" "}
-        {dislikes}
+
+      <div className="post-info">
+        <div>
+          Category:
+          <strong>{getCategory(category)}</strong>
+        </div>
+        <div>
+          Status:
+          <strong>{getStatus(status)}</strong>
+        </div>
+        <div className={promoteStyle}>
+          Promoted:
+          <strong>{promote ? "Yes" : "No"}</strong>
+        </div>
       </div>
-      <hr />
+
+      <div className="likes-dislikes">
+        <button onClick={handleLike} className="like">
+          <BiHappyBeaming />
+          {likes}
+        </button>
+
+        <button onClick={handleDislike} className="dislike">
+          <BiSad />
+          {dislikes}
+        </button>
+      </div>
     </div>
   );
 }

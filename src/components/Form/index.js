@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { categories, statuses } from "../../includes/variables";
+import './styles.scss';
 
 export default function Form({ onNewPost }) {
   const [title, setTitle] = useState("");
@@ -57,20 +59,6 @@ export default function Form({ onNewPost }) {
     }
   };
 
-  const categories = [
-    { id: "edu", text: "Education" },
-    { id: "ent", text: "Entertainment" },
-    { id: "nws", text: "News" },
-    { id: "gam", text: "Games" },
-    { id: "etc", text: "Other" },
-  ];
-
-  const statuses = [
-    { id: "d", text: "Draft" },
-    { id: "p", text: "Published" },
-    { id: "a", text: "Archived" },
-  ];
-
   const handlePictureSelection = (event) => {
     const file = event.target.files[0];
     const fileReader = new FileReader();
@@ -82,22 +70,18 @@ export default function Form({ onNewPost }) {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <hr />
+    <form className="form-component" onSubmit={handleFormSubmit}>
 
       {/* Conditionally display success message */}
       {showSuccess && (
-        <>
-          <p>
-            <strong>Form successfully submitted!</strong>
-          </p>
-          <hr />
-        </>
+        <div className="success-message">
+          Post submitted!
+        </div>
       )}
 
       {/* Conditionally display error message */}
       {errorMessages.length > 0 && (
-        <div>
+        <div className="validate">
           Invalid data:
           <ul>
             {errorMessages.map((error, index) => (
@@ -156,7 +140,7 @@ export default function Form({ onNewPost }) {
       </div>
 
       {/* Promote Field */}
-      <div>
+      <div className="promote-field">
         <label>
           <input
             type="checkbox"
@@ -168,7 +152,7 @@ export default function Form({ onNewPost }) {
       </div>
 
       {/* Status Field (Draft, Publish, Archive) */}
-      <div>
+      <div className="status-field">
         Status:
         {statuses.map((item) => (
           <label key={item.id}>
@@ -195,8 +179,8 @@ export default function Form({ onNewPost }) {
             onChange={handlePictureSelection}
             ref={inputFile}
           />
-          {picture && <img src={picture} alt="Preview" width={100} />}
         </label>
+          {picture && <img src={picture} alt="Preview" width={100} />}
       </fieldset>
 
       <button>Post</button>

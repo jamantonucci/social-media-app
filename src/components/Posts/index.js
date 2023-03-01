@@ -1,4 +1,5 @@
 import Post from "./Post";
+import './styles.scss';
 
 export default function Posts({ posts, onLike, onDislike }) {
   let totalLikes = 0;
@@ -9,7 +10,7 @@ export default function Posts({ posts, onLike, onDislike }) {
   });
 
   return (
-    <main>
+    <main className="post-list">
       {posts.map((post, index) => (
         <Post
           key={index}
@@ -18,7 +19,7 @@ export default function Posts({ posts, onLike, onDislike }) {
           {...post}
         />
       ))}
-      <div>
+      <div className="total-rating">
         Total Likes: {totalLikes} | Total Dislikes: {totalDislikes}
       </div>
     </main>
