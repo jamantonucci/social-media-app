@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { categories, statuses } from "../../includes/variables";
-import './styles.scss';
+import "./styles.scss";
 
 export default function Form({ onNewPost }) {
   const [title, setTitle] = useState("");
@@ -71,13 +71,8 @@ export default function Form({ onNewPost }) {
 
   return (
     <form className="form-component" onSubmit={handleFormSubmit}>
-
       {/* Conditionally display success message */}
-      {showSuccess && (
-        <div className="success-message">
-          Post submitted!
-        </div>
-      )}
+      {showSuccess && <div className="success-message">Post submitted!</div>}
 
       {/* Conditionally display error message */}
       {errorMessages.length > 0 && (
@@ -180,7 +175,7 @@ export default function Form({ onNewPost }) {
             ref={inputFile}
           />
         </label>
-          {picture && <img src={picture} alt="Preview" width={100} />}
+        {picture && <img src={picture} alt="Preview" width={100} />}
       </fieldset>
 
       <button>Post</button>
