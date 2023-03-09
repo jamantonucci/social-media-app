@@ -1,7 +1,11 @@
 import Post from "./Post";
-import './styles.scss';
+import "./styles.scss";
+import { useSelector } from "react-redux";
 
-export default function Posts({ posts, onLike, onDislike }) {
+export default function Posts() {
+  const posts = useSelector((state) => state.post.posts);
+  const { allowLikes, allowDislikes } = useSelector((state) => state.settings);
+
   let totalLikes = 0;
   let totalDislikes = 0;
   posts.forEach((post) => {
@@ -12,16 +16,15 @@ export default function Posts({ posts, onLike, onDislike }) {
   return (
     <main className="post-list">
       {posts.map((post, index) => (
-        <Post
-          key={index}
-          onLike={onLike}
-          onDislike={onDislike}
-          {...post}
-        />
+        <Post key={index} {...post} />
       ))}
-      <div className="total-rating">
-        Total Likes: {totalLikes} | Total Dislikes: {totalDislikes}
-      </div>
+      {(allowLikes || allowDislikes) && (
+        <div className="total-rating">
+          {allowLikes && <span>Total Likes: {totalLikes}</span>}
+          {allowLikes && allowDislikes && <span> | </span>}
+          {allowDislikes && <span>Total Dislikes: {totalDislikes}</span>}
+        </div>
+      )}
     </main>
   );
 }

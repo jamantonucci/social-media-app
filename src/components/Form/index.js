@@ -1,8 +1,10 @@
 import { useState, useRef } from "react";
 import { categories, statuses } from "../../includes/variables";
 import "./styles.scss";
+import { useDispatch } from "react-redux";
+import { addPost } from "../../redux/postSlice";
 
-export default function Form({ onNewPost }) {
+export default function Form() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
@@ -12,6 +14,7 @@ export default function Form({ onNewPost }) {
   const [errorMessages, setErrorMessages] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const dispatch = useDispatch();
   const inputFile = useRef();
 
   const handleFormSubmit = (event) => {
@@ -43,7 +46,8 @@ export default function Form({ onNewPost }) {
 
     if (validate.length === 0) {
       // Valid data
-      onNewPost(title, description, category, promote, status, picture);
+      const data = { title, description, category, promote, status, picture };
+      dispatch(addPost(data));
 
       // Display success message
       setShowSuccess(true);

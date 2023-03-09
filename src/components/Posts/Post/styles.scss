@@ -105,4 +105,16 @@
   @include breakpoint-large {
     width: calc(33.33% - 2rem);
   }
+
+  .rate-single-button {
+    button {
+      &.dislike {
+        border-radius: 20px;
+      }
+      &.like {
+        border-radius: 20px;
+        border: none;
+      }
+    }
+  }
 }

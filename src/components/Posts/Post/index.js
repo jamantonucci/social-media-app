@@ -1,5 +1,8 @@
 import { BiHappyBeaming, BiSad } from "react-icons/bi";
 import { getStatus, getCategory } from "../../../includes/variables";
+import { useSelector, useDispatch } from "react-redux";
+import { likePost, dislikePost } from "../../../redux/postSlice";
+
 import "./styles.scss";
 
 export default function Post({
@@ -12,18 +15,28 @@ export default function Post({
   picture,
   likes,
   dislikes,
-  onLike,
-  onDislike,
 }) {
+  const { allowLikes, allowDislikes } = useSelector((state) => state.settings);
+
+  const dispatch = useDispatch();
+
   function handleLike() {
-    onLike(id);
+    // onLike(id);
+    dispatch(likePost(id));
   }
 
   function handleDislike() {
-    onDislike(id);
+    // onDislike(id);
+    dispatch(dislikePost(id));
   }
 
   const promoteStyle = promote ? "promote-yes" : "promote-no";
+
+  let rateClassName = 'likes-dislikes';
+  
+  if (!allowLikes || !allowDislikes) {
+    rateClassName += ' rate-single-button';
+  }
 
   return (
     <div className="post-component">
@@ -50,17 +63,22 @@ export default function Post({
         </div>
       </div>
 
-      <div className="likes-dislikes">
-        <button onClick={handleLike} className="like">
-          <BiHappyBeaming />
-          {likes}
-        </button>
-
-        <button onClick={handleDislike} className="dislike">
-          <BiSad />
-          {dislikes}
-        </button>
-      </div>
+      {(allowLikes || allowDislikes) && (
+        <div className={rateClassName}>
+          {allowLikes && (
+            <button onClick={handleLike} className="like">
+              <BiHappyBeaming />
+              {likes}
+            </button>
+          )}
+          {allowDislikes && (
+            <button onClick={handleDislike} className="dislike">
+              <BiSad />
+              {dislikes}
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 }
