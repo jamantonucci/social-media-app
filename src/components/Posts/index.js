@@ -2,9 +2,13 @@ import Post from "./Post";
 import "./styles.scss";
 import { useSelector } from "react-redux";
 
-export default function Posts() {
-  const posts = useSelector((state) => state.post.posts);
+export default function Posts({ showOnlyPromoted }) {
+  let posts = useSelector((state) => state.post.posts);
   const { allowLikes, allowDislikes } = useSelector((state) => state.settings);
+
+  if (showOnlyPromoted) {
+    posts = posts.filter((post) => post.promote);
+  }
 
   let totalLikes = 0;
   let totalDislikes = 0;
@@ -14,17 +18,17 @@ export default function Posts() {
   });
 
   return (
-    <main className="post-list">
+    <div className="post-list full-width">
       {posts.map((post, index) => (
         <Post key={index} {...post} />
       ))}
-      {(allowLikes || allowDislikes) && (
+      {(allowLikes || allowDislikes) && !showOnlyPromoted && (
         <div className="total-rating">
           {allowLikes && <span>Total Likes: {totalLikes}</span>}
           {allowLikes && allowDislikes && <span> | </span>}
           {allowDislikes && <span>Total Dislikes: {totalDislikes}</span>}
         </div>
       )}
-    </main>
+    </div>
   );
 }

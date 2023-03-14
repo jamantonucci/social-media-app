@@ -1,64 +1,35 @@
-import Header from "./components/Header";
-import Posts from "./components/Posts";
-import Footer from "./components/Footer";
-import Form from "./components/Form";
-import Settings from "./components/Settings";
-import { useState } from "react";
-import uuid from "react-uuid";
+import Header from './components/Header';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import AboutUsPage from './pages/AboutUsPage';
+import AboutUsIntroductionPage from './pages/AboutUsPage/Introduction';
+import AboutUsMissionPage from './pages/AboutUsPage/Mission';
+import AboutUsPrivacyPage from './pages/AboutUsPage/Privacy';
+import PostListPage from './pages/PostListPage';
+import PostFormPage from './pages/PostFormPage';
+import PostItemPage from './pages/PostItemPage';
+import PreferencesPage from './pages/PreferencesPage';
+import NotFoundPage from './pages/NotFoundPage';
+import { Routes, Route } from 'react-router-dom';
 
 export default function App() {
-
-
-  // const handleNewPost = (
-  //   title,
-  //   description,
-  //   category,
-  //   promote,
-  //   status,
-  //   picture
-  // ) => {
-  //   const updatedPosts = [...posts];
-  //   updatedPosts.push({
-  //     id: uuid(),
-  //     title: title,
-  //     description,
-  //     category,
-  //     promote,
-  //     status,
-  //     picture,
-  //     likes: 0,
-  //     dislikes: 0,
-  //   });
-  //   setPosts(updatedPosts);
-  // };
-
-  // const handleLike = (id) => {
-  //   const updatedPosts = [...posts];
-  //   updatedPosts.forEach((post) => {
-  //     if (post.id === id) {
-  //       post.likes++;
-  //     }
-  //   });
-  //   setPosts(updatedPosts);
-  // };
-
-  // const handleDislike = (id) => {
-  //   const updatedPosts = [...posts];
-  //   updatedPosts.forEach((post) => {
-  //     if (post.id === id) {
-  //       post.dislikes++;
-  //     }
-  //   });
-  //   setPosts(updatedPosts);
-  // } ;
-
-  return (
-    <>
-      <Header />
-      <Posts />
-      <Form />
-      <Settings />
-      <Footer />
-    </>
-  );
+	return (
+		<>
+			<Header />
+			<Routes>
+				<Route path='/' element={<HomePage />} />
+				<Route path='posts' element={<PostListPage />} />
+				<Route path='posts/add' element={<PostFormPage />} />
+				<Route path='posts/:id' element={<PostItemPage />} />
+				<Route path='preferences' element={<PreferencesPage />} />
+				<Route path='about-us' element={<AboutUsPage />}>
+					<Route path='' element={<AboutUsIntroductionPage />} />
+					<Route path='mission' element={<AboutUsMissionPage />} />
+					<Route path='privacy' element={<AboutUsPrivacyPage />} />
+				</Route>
+				<Route path='*' element={<NotFoundPage />} />
+			</Routes>
+			<Footer />
+		</>
+	);
 }
