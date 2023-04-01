@@ -10,6 +10,13 @@ export default function Posts({ showOnlyPromoted }) {
     posts = posts.filter((post) => post.promote);
   }
 
+  // Validate if there are posts to display
+  if (posts.length === 0) {
+    return (
+      <div>No posts found.</div>
+    )
+  }
+
   let totalLikes = 0;
   let totalDislikes = 0;
   posts.forEach((post) => {

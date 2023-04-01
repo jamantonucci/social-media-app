@@ -3,6 +3,7 @@ import { categories, statuses } from '../../includes/variables';
 import './styles.scss';
 import { useDispatch } from 'react-redux';
 import { addPost } from '../../redux/postSlice';
+import * as database from '../../database';
 
 export default function Form() {
 	const [title, setTitle] = useState('');
@@ -13,11 +14,12 @@ export default function Form() {
 	const [picture, setPicture] = useState('');
 	const [errorMessages, setErrorMessages] = useState([]);
 	const [showSuccess, setShowSuccess] = useState(false);
+	const [isSaving, setIsSaving] = useState(false);
 
 	const dispatch = useDispatch();
 	const inputFile = useRef();
 
-	const handleFormSubmit = (event) => {
+	const handleFormSubmit = async (event) => {
 		event.preventDefault(); // Stops page from auto-refreshing on form submission
 
 		// Hide success message
@@ -45,21 +47,49 @@ export default function Form() {
 		setErrorMessages(validate);
 
 		if (validate.length === 0) {
-			// Valid data
-			const data = { title, description, category, promote, status, picture };
-			dispatch(addPost(data));
+			setIsSaving(true);
+			const file = inputFile.current.files[0];
+			const pictureUrl = await database.uploadPicture(file);
+			if (pictureUrl) {
+				const data = {
+					title,
+					description,
+					category,
+					promote,
+					status,
+					picture: pictureUrl,
+					likes: 0,
+					dislikes: 0,
+				};
 
-			// Display success message
-			setShowSuccess(true);
+				const savedId = await database.save(data);
 
-			// Clean form
-			setTitle('');
-			setDescription('');
-			setCategory('');
-			setStatus('');
-			setPromote(true);
-			setPicture('');
-			inputFile.current.value = '';
+				if (savedId) {
+					data.id = savedId;
+					dispatch(addPost(data));
+
+					// Display success message
+					setShowSuccess(true);
+
+					// Clean form
+					setTitle('');
+					setDescription('');
+					setCategory('');
+					setStatus('');
+					setPromote(true);
+					setPicture('');
+					if (inputFile.current) {
+						inputFile.current.value = '';
+					}
+				} else {
+					setErrorMessages(['Failed to save data.']);
+				}
+			}
+			else {
+				setErrorMessages(['Failed to upload the picture.']);
+			}
+
+			setIsSaving(false);
 		}
 	};
 
@@ -72,6 +102,10 @@ export default function Form() {
 			setPicture(result);
 		};
 	};
+
+	if (isSaving) {
+		return <div>Saving...</div>;
+	}
 
 	return (
 		<form className='form-component' onSubmit={handleFormSubmit}>
